@@ -1,0 +1,1 @@
+## Put artifactory-addons-manager-{version}.jar at here
