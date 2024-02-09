@@ -18,7 +18,7 @@ If you think this project is useful to you please leave a star! Thanks!
 
 Click for different languages of this file
 - [English](README.MD)
-- [简体中文 (WIP)](README_CN.MD)
+- [简体中文](README_CN.MD)
 
 Table of Contents
 - [ArtifactoryKeygen](#artifactorykeygen)
