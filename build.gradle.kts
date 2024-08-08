@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    implementation("commons-cli:commons-cli:1.8.0")
 
     // implementation(files("./libs/artifactory-addons-manager-7.9.2.jar")) // initial
     implementation("org.bouncycastle:bcprov-jdk18on:1.74")
@@ -25,7 +26,7 @@ dependencies {
     // JFrog keep using old versions...
     //implementation("org.yaml:snakeyaml:1.23") // using old versions to be able to run artifactory-addons-manager:7.9.2
 
-    implementation(files("./libs/artifactory-addons-manager-7.59.13.jar")) // Update
+    implementation(files("./libs/artifactory-addons-manager-7.90.7.jar")) // Update
     implementation("org.yaml:snakeyaml:2.0")
     implementation("org.apache.httpcomponents:httpclient:4.5.14")
     implementation("org.slf4j:slf4j-api:2.0.7")

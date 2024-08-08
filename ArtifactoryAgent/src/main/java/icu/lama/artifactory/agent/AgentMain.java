@@ -1,6 +1,7 @@
 package icu.lama.artifactory.agent;
 
 import icu.lama.artifactory.agent.patches.PatcherLicenseParser;
+import icu.lama.artifactory.agent.patches.PublicKeyOverrider;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -11,10 +12,10 @@ import java.util.Base64;
 
 public class AgentMain {
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-    public static String PUBLIC_KEY = "MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAvo8nLq+/626ozvUPkhtTdZBEbaneoD9fIf/u1F1ed+wOxvBfaIhmMHZCVUodvPF8CNcLKkwS5Qm5Wu0sYrQrJk6uzY3QG0kSOMzbTY/FY87pLAZgpl+Kj9UwWIfFDUTAMw7NFAmyqpsePc7X+PDETiDudTe74n270BZhl8AZgGx2hTYT12nE/SYwfV3plM63KE6H0X5+M4i5rAMdA+0B/iArTBoqI3XN9pKZoOAIOEO/VExdbTgA4sbZTvjFdfc0SLF4lIY/ZjXDkChQElsHxnCdO1TOdMuV11soUJJypjjEvnvEnraXclTAHU3hnh+kXgOolCxW+XfXIudCeY45p5aSf9eWjdnDUXIJoWJX1i9FttQFl3GQ3RbLNRc6jCumq9lnJxRy2ZaTibBObLCzqhSxLIMoeItTosy2w21+sidTRfcYiDmUR4ZrdKjC7YDm6T5z562O57w/Ky6j1wKXR/eOHhPRHRPHNYRb3kyVGuFiqScaWLvErEPJa5/ThTwXFpoUEXgpFdLBtAUBzBeQ9TeWqndfP+nlHhEaqkA4zb4Ks6epkLAgxlU0lTlxMgP5aQUq8GVtmAGwCV6NBcy6PPI98BTgmsgcCEXTOkxHb/n25xiv4upr2jKSzgY/gu7BiKNXLDNqIQmSNza/sTYMwf+VG8jhOOB5LvyHYKKV2PUCAwEAAQ==";
 
     public static void premain(String args, Instrumentation ins) {
         if (args != null) {
+            // Hex string is shell friendly
             var argsRaw = Base64.getDecoder().decode(hexStringToByteArray(args));
             try {
                 var doc = DocumentBuilderFactory.newDefaultInstance().newDocumentBuilder().parse(new ByteArrayInputStream(argsRaw));
@@ -23,8 +24,8 @@ public class AgentMain {
                 if (key.getLength() > 1) {
                     System.out.println("Illegal config! Multiple PublicKey found but 1 is the only allowed amounts.");
                 } else if (key.getLength() != 0) {
-                    PUBLIC_KEY = key.item(0).getFirstChild().getNodeValue();
-                    System.out.println("Artifactory Agent :: Overriding default PUBLIC_KEY to" + PUBLIC_KEY);
+                    Constants.PUBLIC_KEY = key.item(0).getFirstChild().getNodeValue();
+                    System.out.println("Artifactory Agent :: Overriding default PUBLIC_KEY to" + Constants.PUBLIC_KEY);
                 }
             } catch (Throwable t) {
                 t.printStackTrace();
@@ -39,7 +40,8 @@ public class AgentMain {
         System.out.println("Artifactory Agent ::   ALERT! USE AT YOUR OWN RISK!       ");
         System.out.println("Artifactory Agent :: =====================================");
 
-        ins.addTransformer(new PatcherLicenseParser());
+        //ins.addTransformer(new PatcherLicenseParser());
+        ins.addTransformer(new PublicKeyOverrider());
     }
 
     public static void main(String... args) {

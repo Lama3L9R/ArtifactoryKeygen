@@ -19,16 +19,16 @@ abstract public class ClassPatch implements ClassFileTransformer {
 
     @Override
     public final byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        var renamedName = ObfuscationRenames.getInstance().rename(className.replace("/", "."));
-        if (targetClasses.contains(renamedName)) {
-            System.out.println("Artifactory Agent :: Patching Class: " + renamedName + ", source = " + protectionDomain.getCodeSource().getLocation().toString());
+        var clazz = className.replace("/", ".");
+        if (targetClasses.contains(clazz)) {
+            System.out.println("Artifactory Agent :: Patching Class: " + clazz + ", source = " + protectionDomain.getCodeSource().getLocation().toString());
             var ctPool = ClassPool.getDefault();
 
             try {
                 if (classBeingRedefined == null) {
-                    return this.onTransform(renamedName, ctPool.makeClass(new ByteArrayInputStream(classfileBuffer)), classfileBuffer);
+                    return this.onTransform(clazz, ctPool.makeClass(new ByteArrayInputStream(classfileBuffer)), classfileBuffer);
                 } else {
-                    return this.onRetransform(renamedName, ctPool.makeClass(new ByteArrayInputStream(classfileBuffer)), classfileBuffer, classBeingRedefined);
+                    return this.onRetransform(clazz, ctPool.makeClass(new ByteArrayInputStream(classfileBuffer)), classfileBuffer, classBeingRedefined);
                 }
             } catch (Throwable t) {
                 t.printStackTrace();

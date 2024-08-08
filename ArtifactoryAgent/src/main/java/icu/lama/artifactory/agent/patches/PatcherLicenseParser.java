@@ -8,9 +8,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
+@Deprecated
 public class PatcherLicenseParser extends ClassPatch {
     public PatcherLicenseParser() {
-        super("org.jfrog.license.api.LicenseParser", "org.jfrog.license.api.LicenseManager");
+        super("org.jfrog.license.api.a", "org.jfrog.license.api.LicenseManager");
     }
 
     @Override
@@ -32,11 +33,11 @@ public class PatcherLicenseParser extends ClassPatch {
         var publicKeyFieldNObf = tryGetDeclaredField(clazz, "jfrogPublicKey"); // 7.59 in license-manager-7.63.3.jar, no obfuscation version of artifactory-addons-manager
         if (publicKeyFieldNObf != null) {
             publicKeyFieldNObf.setModifiers(Modifier.PRIVATE + Modifier.STATIC);
-            overrides += "jfrogPublicKey = icu.lama.artifactory.agent.AgentMain.PUBLIC_KEY;";
+            overrides += "jfrogPublicKey = icu.lama.artifactory.agent.Constants.PUBLIC_KEY;";
         }
 
         var clinitMethod = Arrays.stream(clazz.getDeclaredBehaviors()).filter((it) -> "<clinit>".equals(it.getMethodInfo().getName())).findAny();
-        if (!clinitMethod.isPresent()) {
+        if (clinitMethod.isEmpty()) {
             throw new Throwable("Corrupted class!");
         }
 
