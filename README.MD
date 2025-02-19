@@ -2,7 +2,7 @@
 
 As it's named, this project is a keygen of Artifactory from JFrog. 
 
-Tested on 7.59.11 (Latest version), 7.9.2 (Latest version on [releases-docker](https://releases-docker.jfrog.io/))
+Tested on 7.104.6 (Latest version), 7.9.2 (Latest version on [releases-docker](https://releases-docker.jfrog.io/))
 
 If you think this project is useful to you please leave a star! Thanks!
 
