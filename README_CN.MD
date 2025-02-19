@@ -2,7 +2,7 @@
 
 正如其名，这是 `Artifactory` 的 `Keygen`
 
-已在 7.59.11 (当前为止最新版), 7.9.2 (在 [releases-docker](https://releases-docker.jfrog.io/) 可以下载到的最新版) 上进行测试
+已在 7.104.6 (当前为止最新版), 7.9.2 (在 [releases-docker](https://releases-docker.jfrog.io/) 可以下载到的最新版) 上进行测试
 
 如果您认为这个项目对您有帮助，请为这个项目送上您的 `Star`
 
