@@ -1,6 +1,6 @@
 # ArtifactoryKeygen
 
-As it's named, this project is a keygen of Artifactory from JFrog. 
+As it's named, this project is a keygen of Artifactory from JFrog.
 
 Tested on 7.104.6 (Latest version), 7.9.2 (Latest version on [releases-docker](https://releases-docker.jfrog.io/))
 
@@ -17,21 +17,23 @@ If you think this project is useful to you please leave a star! Thanks!
 ---
 
 Click for different languages of this file
+
 - [English](README.MD)
 - [简体中文](README_CN.MD)
 
 Table of Contents
+
 - [ArtifactoryKeygen](#artifactorykeygen)
-    * [0x00 Installation](#0x00-installation)
-    * [0x01 Configuring the keygen [Optional]](#0x01-configuring-the-keygen--optional-)
-    * [0x02 Configuring the agent [Optional]](#0x02-configuring-the-agent--optional-)
-        + [Override default public key](#override-default-public-key)
-            - [By using the keygen](#by-using-the-keygen)
-            - [By your hands](#by-your-hands)
-    * [0x03 Other useful tools](#0x03-other-useful-tools)
-        + [Keygen](#keygen)
-    * [0x04 Compilation](#0x04-compilation)
-    * [0x05 TODOs and Future updates](#0x05-todos-and-future-updates)
+  - [0x00 Installation](#0x00-installation)
+  - [0x01 Configuring the keygen](#0x01-configuring-the-keygen)
+  - [0x02 Configuring the agent](#0x02-configuring-the-agent)
+    - [Override default public key](#override-default-public-key)
+      - [By using the keygen](#by-using-the-keygen)
+      - [By your hands](#by-your-hands)
+  - [0x03 Other useful tools](#0x03-other-useful-tools)
+    - [Keygen](#keygen)
+  - [0x04 Compilation](#0x04-compilation)
+  - [0x05 TODOs and Future updates](#0x05-todos-and-future-updates)
 
 ![](imgs/Success.png)
 
@@ -55,9 +57,13 @@ You'll need `ArtifactoryAgent` to patch some files.
 Navigate to Artifactory's Tomcat folder then edit `bin/setenv.sh` (It should be named `setenv.bat` on Windows)
 
 Add the following line to that file. Don't forget to change the path!
+
+For newer versions an additional variable is needed `jf.product.home`.
+
 ```shell
 # Linux / macOS(But why macOS??)
-CATALINA_OPTS=-javaagent:/path/to/ArtifactoryAgent-1.0-SNAPSHOT-all.jar
+CATALINA_OPTS="-javaagent:/path/to/ArtifactoryAgent-1.0-SNAPSHOT-all.jar"
+CATALINA_OPTS="$CATALINA_OPTS -Djf.product.home=/opt/jfrog/artifactory"
 ```
 
 ```batch
@@ -87,6 +93,7 @@ To be noticed that the public key should be a **RSA Public Key in X509 Format**
 and have at least 4096 bits of modulus of the key
 
 Copy the generated text and put it in agent arguments like this:
+
 ```shell
 # Linux
 CATALINA_OPTS=-javaagent:/path/to/ArtifactoryAgent-1.0-SNAPSHOT-all.jar=<GeneratedConfigHere>
@@ -111,8 +118,7 @@ Edit the template below and use Base64 to encode it then convert the encoded res
 
 You can get any text hexadecimal-ized by passing your text into the agent (Yes the agent is executable!)
 
-
-```
+```bash
 $ java -jar /path/to/ArtifactoryAgent-1.0-SNAPSHOT-all.jar <Text>
 ```
 
